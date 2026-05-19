@@ -11,7 +11,7 @@ Aplicación web académica de comercio electrónico construida con `Spring Boot`
 
 La aplicación asume que la base y las tablas ya existen. El script de referencia está en:
 
-- [database/tienda_web_express.sql](/Users/freyes/WebDesignClass/StaticPageFernandoReyes/database/tienda_web_express.sql)
+- [database/tienda_web_express.sql](database/tienda_web_express.sql)
 
 Por defecto la app usa:
 
