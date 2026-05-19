@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>La Canasta Local</title>
+    <meta
+      name="description"
+      content="Propuesta de frontend para una tienda local en linea con catalogo, detalle de producto y simulacion de pedido."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-bar">
+        <a class="brand" href="#inicio">
+          <span class="brand-mark">LC</span>
+          <span class="brand-copy">
+            <strong>La Canasta Local</strong>
+            <small>Productos basicos para tu hogar</small>
+          </span>
+        </a>
+
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+        >
+          Menu
+        </button>
+
+        <nav class="site-nav" id="site-nav" aria-label="Principal">
+          <a href="#productos">Productos</a>
+          <a href="#pedido">Pedido</a>
+          <a class="nav-cta" href="#productos">Ver productos</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="inicio">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Tienda local en linea</p>
+            <h1>Compra lo esencial con una experiencia simple, moderna y cercana.</h1>
+            <p class="hero-text">
+              Explora productos del dia a dia, revisa sus detalles y simula tu
+              pedido en pocos pasos. Una propuesta de frontend clara, responsiva
+              y lista para presentar.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#productos">Explorar catalogo</a>
+              <a class="button button-secondary" href="#pedido">Simular pedido</a>
+            </div>
+          </div>
+
+          <div class="hero-panel" aria-hidden="true">
+            <div class="hero-card">
+              <strong>6 productos listos para demo</strong>
+              <p>Catalogo organizado por categorias y flujo de pedido simulado.</p>
+            </div>
+            <div class="hero-tags">
+              <span>Granos</span>
+              <span>Bebidas</span>
+              <span>Limpieza</span>
+              <span>Snacks</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="catalog" id="productos">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Catalogo</p>
+            <h2>Productos de ejemplo para el mini caso</h2>
+          </div>
+          <div class="product-grid" id="product-grid"></div>
+        </div>
+      </section>
+
+      <section class="order-section" id="pedido">
+        <div class="container order-grid">
+          <div class="order-copy">
+            <p class="eyebrow">Simulacion de pedido</p>
+            <h2>Completa un pedido basico sin backend</h2>
+            <p>
+              Selecciona un producto desde el detalle o elige uno directamente en
+              el formulario. El objetivo es demostrar el flujo visual del pedido,
+              no procesar pagos reales.
+            </p>
+            <ul class="order-notes">
+              <li>Sin base de datos</li>
+              <li>Sin carrito persistente</li>
+              <li>Confirmacion visual inmediata</li>
+            </ul>
+          </div>
+
+          <form class="order-form" id="order-form">
+            <label for="producto">Producto</label>
+            <select id="producto" name="producto" required></select>
+
+            <label for="cantidad">Cantidad</label>
+            <input
+              id="cantidad"
+              name="cantidad"
+              type="number"
+              min="1"
+              value="1"
+              required
+            />
+
+            <label for="nombre">Nombre</label>
+            <input
+              id="nombre"
+              name="nombre"
+              type="text"
+              placeholder="Tu nombre"
+              required
+            />
+
+            <label for="telefono">Telefono</label>
+            <input
+              id="telefono"
+              name="telefono"
+              type="tel"
+              placeholder="0000-0000"
+              required
+            />
+
+            <button class="button button-primary" type="submit">
+              Confirmar pedido
+            </button>
+            <p class="order-message" id="order-message" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <strong>La Canasta Local</strong>
+          <p>Barrio Central, Managua, Nicaragua</p>
+        </div>
+        <div>
+          <strong>Contacto</strong>
+          <p>Telefono: 2222-3344</p>
+        </div>
+        <div>
+          <strong>Horario</strong>
+          <p>Lunes a Sabado, 8:00 AM - 7:00 PM</p>
+        </div>
+      </div>
+    </footer>
+
+    <div class="modal" id="product-modal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="modal-backdrop" data-close-modal="true"></div>
+      <div class="modal-panel" role="document">
+        <button class="modal-close" id="modal-close" type="button" aria-label="Cerrar detalle">
+          X
+        </button>
+        <img id="modal-image" src="" alt="" />
+        <div class="modal-content">
+          <span class="modal-category" id="modal-category"></span>
+          <h3 id="modal-name"></h3>
+          <p class="modal-price" id="modal-price"></p>
+          <p class="modal-description" id="modal-description"></p>
+          <button class="button button-primary" id="modal-order-button" type="button">
+            Agregar al pedido
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

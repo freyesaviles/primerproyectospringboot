@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Formulario de pedido')}"></head>
+<body>
+<div th:replace="~{fragments/header :: header(${currentPage})}"></div>
+
+<main class="page-shell">
+    <section class="section-shell">
+        <div class="container order-grid">
+            <div class="order-copy">
+                <p class="eyebrow">Pedido de prueba</p>
+                <h1>Crea una solicitud simple sin procesar pagos reales</h1>
+                <p>
+                    Selecciona el producto, la cantidad y tus datos básicos. El servidor calculará el total
+                    con el precio real almacenado en la base de datos.
+                </p>
+                <ul class="order-notes">
+                    <li>El pedido se guarda en PostgreSQL.</li>
+                    <li>El stock se descuenta después del envío.</li>
+                    <li>El campo comentario también puede usarse como dirección.</li>
+                </ul>
+            </div>
+
+            <form class="order-form" id="order-form" th:action="@{/pedido}" th:object="${pedidoForm}" method="post" novalidate>
+                <div class="form-field">
+                    <label for="productoId">Producto seleccionado</label>
+                    <select id="productoId" th:field="*{productoId}" required>
+                        <option th:each="producto : ${productosDisponibles}"
+                                th:value="${producto.id}"
+                                th:text="${producto.nombre} + ' · ' + ${#numbers.formatCurrency(producto.precio)}">
+                            Producto
+                        </option>
+                    </select>
+                    <small class="field-error" th:if="${#fields.hasErrors('productoId')}" th:errors="*{productoId}">Error</small>
+                </div>
+
+                <div class="form-field">
+                    <label for="cantidad">Cantidad</label>
+                    <input id="cantidad" th:field="*{cantidad}" type="number" min="1" required>
+                    <small class="field-error" th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}">Error</small>
+                </div>
+
+                <div class="form-field">
+                    <label for="nombreCliente">Nombre del cliente</label>
+                    <input id="nombreCliente" th:field="*{nombreCliente}" type="text" maxlength="150" required>
+                    <small class="field-error" th:if="${#fields.hasErrors('nombreCliente')}" th:errors="*{nombreCliente}">Error</small>
+                </div>
+
+                <div class="form-field">
+                    <label for="correo">Correo</label>
+                    <input id="correo" th:field="*{correo}" type="email" maxlength="150" required>
+                    <small class="field-error" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}">Error</small>
+                </div>
+
+                <div class="form-field">
+                    <label for="comentario">Comentario o dirección</label>
+                    <textarea id="comentario" th:field="*{comentario}" rows="4" maxlength="500"></textarea>
+                    <small class="field-error" th:if="${#fields.hasErrors('comentario')}" th:errors="*{comentario}">Error</small>
+                </div>
+
+                <p class="form-error-global" th:if="${#fields.hasGlobalErrors()}" th:each="error : ${#fields.globalErrors()}" th:text="${error}">Error general</p>
+
+                <button class="button button-primary" type="submit">Confirmar pedido</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div class="toast" id="toast" aria-live="polite" aria-hidden="true"></div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

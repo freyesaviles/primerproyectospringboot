@@ -1,0 +1,18 @@
+<svg width="640" height="480" viewBox="0 0 640 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="480" rx="36" fill="#F7E8E3"/>
+  <circle cx="124" cy="104" r="78" fill="#E7C4B7"/>
+  <rect x="120" y="120" width="400" height="240" rx="36" fill="#FFF9F7"/>
+  <rect x="178" y="92" width="284" height="84" rx="30" fill="#8E4737"/>
+  <text x="320" y="144" text-anchor="middle" fill="white" font-size="28" font-family="Arial" font-weight="700">FRIJOLES</text>
+  <ellipse cx="320" cy="270" rx="128" ry="70" fill="#F4D8CF"/>
+  <g fill="#9E4335">
+    <ellipse cx="268" cy="246" rx="18" ry="12" transform="rotate(-16 268 246)"/>
+    <ellipse cx="309" cy="227" rx="18" ry="12" transform="rotate(10 309 227)"/>
+    <ellipse cx="348" cy="248" rx="18" ry="12" transform="rotate(-20 348 248)"/>
+    <ellipse cx="386" cy="232" rx="18" ry="12" transform="rotate(12 386 232)"/>
+    <ellipse cx="253" cy="286" rx="18" ry="12" transform="rotate(8 253 286)"/>
+    <ellipse cx="295" cy="272" rx="18" ry="12" transform="rotate(-12 295 272)"/>
+    <ellipse cx="337" cy="289" rx="18" ry="12" transform="rotate(14 337 289)"/>
+    <ellipse cx="382" cy="279" rx="18" ry="12" transform="rotate(-8 382 279)"/>
+  </g>
+</svg>

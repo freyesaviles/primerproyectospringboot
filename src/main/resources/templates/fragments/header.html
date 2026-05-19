@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<header class="site-header" th:fragment="header(currentPage)">
+    <div class="container header-bar">
+        <a class="brand" th:href="@{/}">
+            <img class="brand-logo" th:src="@{/images/brand/logo.svg}" alt="Logo Tienda Web Express">
+            <span class="brand-copy">
+                <strong>Tienda Web Express</strong>
+                <small>Tu vitrina local, simple y moderna</small>
+            </span>
+        </a>
+
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+            Menú
+        </button>
+
+        <nav class="site-nav" id="site-nav" aria-label="Principal">
+            <a th:href="@{/}" th:classappend="${currentPage == 'inicio'} ? ' is-active'">Inicio</a>
+            <a th:href="@{/catalogo}" th:classappend="${currentPage == 'catalogo'} ? ' is-active'">Catálogo</a>
+            <a th:href="@{/pedido}" th:classappend="${currentPage == 'pedido'} ? ' is-active'">Pedido</a>
+        </nav>
+
+        <div class="cart-shell">
+            <button class="cart-badge" id="cart-toggle" type="button" aria-expanded="false" aria-controls="cart-preview" aria-label="Ver carrito">
+                Ver carrito
+                <span id="selected-count">0</span>
+            </button>
+            <div class="cart-preview" id="cart-preview" hidden>
+                <strong>Productos en carrito</strong>
+                <ul id="cart-items"></ul>
+                <p class="cart-empty" id="cart-empty">Aún no has agregado productos.</p>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>

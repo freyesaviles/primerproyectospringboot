@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-labelledby="hero-title">
+  <title id="hero-title">Ilustración principal de Tienda Web Express</title>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#fff4ea"/>
+      <stop offset="100%" stop-color="#e8f2ec"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="720" rx="48" fill="url(#bg)"/>
+  <circle cx="184" cy="164" r="84" fill="#f7d8bf"/>
+  <circle cx="774" cy="146" r="72" fill="#cce0d5"/>
+  <rect x="132" y="184" width="696" height="376" rx="32" fill="#fffdf9" stroke="#dbcbb8" stroke-width="8"/>
+  <rect x="188" y="248" width="198" height="244" rx="24" fill="#e9f1ec"/>
+  <rect x="432" y="248" width="336" height="34" rx="17" fill="#1f6b57" opacity="0.9"/>
+  <rect x="432" y="312" width="278" height="22" rx="11" fill="#c7d8cf"/>
+  <rect x="432" y="356" width="304" height="22" rx="11" fill="#c7d8cf"/>
+  <rect x="432" y="400" width="210" height="22" rx="11" fill="#c7d8cf"/>
+  <rect x="432" y="454" width="166" height="48" rx="24" fill="#db7e3e"/>
+  <path d="M240 454h90l22-126h-134z" fill="#db7e3e"/>
+  <circle cx="262" cy="492" r="18" fill="#1f6b57"/>
+  <circle cx="336" cy="492" r="18" fill="#1f6b57"/>
+</svg>
