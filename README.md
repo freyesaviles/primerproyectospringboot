@@ -28,7 +28,9 @@ Por defecto la app usa:
 ## Funcionalidad principal
 
 - Página de inicio con branding, hero y productos destacados
-- Catálogo dinámico con filtro por categoría y detalle rápido
+- Catálogo dinámico con búsqueda por nombre, filtro por categoría y consulta combinada
+- Mantenimiento visual de filtros seleccionados y opción para limpiar filtros
+- Detalle rápido dentro del catálogo
 - Vista de detalle por producto
 - Contador local de productos seleccionados con `sessionStorage`
 - Formulario de pedido con validación en cliente y servidor
