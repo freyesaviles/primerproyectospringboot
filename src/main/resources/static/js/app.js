@@ -135,38 +135,6 @@ function initCounter() {
     });
 }
 
-function initCategoryFilter() {
-    const filterContainer = document.querySelector("#category-filters");
-    const cards = document.querySelectorAll(".catalog-card");
-
-    if (!filterContainer || cards.length === 0) {
-        return;
-    }
-
-    const applyFilter = (filterValue) => {
-        cards.forEach((card) => {
-            const categoryId = card.dataset.categoriaId;
-            const shouldShow = filterValue === "all" || categoryId === filterValue;
-            card.hidden = !shouldShow;
-        });
-
-        filterContainer.querySelectorAll(".filter-button").forEach((button) => {
-            button.classList.toggle("is-active", button.dataset.filter === filterValue);
-        });
-    };
-
-    filterContainer.addEventListener("click", (event) => {
-        const button = event.target.closest(".filter-button");
-        if (!button) {
-            return;
-        }
-        applyFilter(button.dataset.filter || "all");
-    });
-
-    const preselected = filterContainer.querySelector(".filter-button.is-active");
-    applyFilter(preselected?.dataset.filter || "all");
-}
-
 function initToggleDetails() {
     document.querySelectorAll("[data-toggle-details]").forEach((button) => {
         button.addEventListener("click", () => {
@@ -228,6 +196,5 @@ function initOrderValidation() {
 initMenu();
 initCartPreview();
 initCounter();
-initCategoryFilter();
 initToggleDetails();
 initOrderValidation();

@@ -1,8 +1,11 @@
 package com.fernandoreyes.tiendawebexpress.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,6 +43,8 @@ class TiendaWebExpressIntegrationTest {
     @Autowired
     private PedidoRepository pedidoRepository;
 
+    private Categoria tecnologia;
+    private Categoria ropa;
     private Producto mouse;
     private Producto teclado;
 
@@ -49,8 +54,8 @@ class TiendaWebExpressIntegrationTest {
         productoRepository.deleteAll();
         categoriaRepository.deleteAll();
 
-        Categoria tecnologia = categoriaRepository.save(categoria("Tecnología"));
-        Categoria ropa = categoriaRepository.save(categoria("Ropa"));
+        tecnologia = categoriaRepository.save(categoria("Tecnología"));
+        ropa = categoriaRepository.save(categoria("Ropa"));
         Categoria hogar = categoriaRepository.save(categoria("Hogar"));
         Categoria accesorios = categoriaRepository.save(categoria("Accesorios"));
 
@@ -76,7 +81,63 @@ class TiendaWebExpressIntegrationTest {
             .andExpect(status().isOk())
             .andExpect(view().name("catalogo"))
             .andExpect(model().attributeExists("productos"))
-            .andExpect(model().attributeExists("categorias"));
+            .andExpect(model().attributeExists("categorias", "searchTerm"))
+            .andExpect(model().attribute("searchTerm", ""))
+            .andExpect(model().attribute("selectedCategoryId", nullValue()));
+    }
+
+    @Test
+    void catalogoBuscaPorNombreYMantieneFiltro() throws Exception {
+        mockMvc.perform(get("/catalogo").param("nombre", " mouse "))
+            .andExpect(status().isOk())
+            .andExpect(view().name("catalogo"))
+            .andExpect(model().attributeExists("productos", "categorias", "searchTerm"))
+            .andExpect(model().attribute("searchTerm", "mouse"))
+            .andExpect(model().attribute("selectedCategoryId", nullValue()))
+            .andExpect(model().attribute("productos", hasSize(1)))
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("Mouse inalámbrico")))
+            .andExpect(content().string(org.hamcrest.Matchers.not(org.hamcrest.Matchers.containsString("Teclado mecánico"))));
+    }
+
+    @Test
+    void catalogoFiltraPorCategoriaYMantieneSeleccion() throws Exception {
+        mockMvc.perform(get("/catalogo").param("categoria", tecnologia.getId().toString()))
+            .andExpect(status().isOk())
+            .andExpect(view().name("catalogo"))
+            .andExpect(model().attributeExists("productos", "categorias", "searchTerm", "selectedCategoryId"))
+            .andExpect(model().attribute("searchTerm", ""))
+            .andExpect(model().attribute("selectedCategoryId", tecnologia.getId()))
+            .andExpect(model().attribute("productos", hasSize(2)))
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("Mouse inalámbrico")))
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("Teclado mecánico")))
+            .andExpect(content().string(org.hamcrest.Matchers.not(org.hamcrest.Matchers.containsString("Camiseta básica"))));
+    }
+
+    @Test
+    void catalogoCombinaNombreYCategoriaConCoincidencias() throws Exception {
+        mockMvc.perform(get("/catalogo")
+                .param("nombre", "mouse")
+                .param("categoria", tecnologia.getId().toString()))
+            .andExpect(status().isOk())
+            .andExpect(view().name("catalogo"))
+            .andExpect(model().attribute("searchTerm", "mouse"))
+            .andExpect(model().attribute("selectedCategoryId", tecnologia.getId()))
+            .andExpect(model().attribute("productos", hasSize(1)))
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("Mouse inalámbrico")))
+            .andExpect(content().string(org.hamcrest.Matchers.not(org.hamcrest.Matchers.containsString("Teclado mecánico"))));
+    }
+
+    @Test
+    void catalogoCombinaNombreYCategoriaSinCoincidencias() throws Exception {
+        mockMvc.perform(get("/catalogo")
+                .param("nombre", "mouse")
+                .param("categoria", ropa.getId().toString()))
+            .andExpect(status().isOk())
+            .andExpect(view().name("catalogo"))
+            .andExpect(model().attribute("searchTerm", "mouse"))
+            .andExpect(model().attribute("selectedCategoryId", ropa.getId()))
+            .andExpect(model().attribute("productos", hasSize(0)))
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("No se encontraron productos.")));
     }
 
     @Test

@@ -9,38 +9,49 @@
         <div class="container">
             <p class="eyebrow">Catálogo de productos</p>
             <h1>Explora el inventario inicial cargado desde PostgreSQL</h1>
-            <p class="hero-text">Filtra por categoría, revisa información rápida y abre la ficha completa de cada producto.</p>
+            <p class="hero-text">Busca por nombre, filtra por categoría y revisa la ficha completa de cada producto.</p>
         </div>
     </section>
 
     <section class="section-shell">
         <div class="container">
-            <div class="catalog-toolbar">
-                <div>
-                    <strong>Filtrar por categoría</strong>
+            <form class="catalog-toolbar catalog-form" th:action="@{/catalogo}" method="get">
+                <div class="catalog-toolbar-copy">
+                    <strong>Busca y filtra el catálogo</strong>
+                    <p>Combina nombre y categoría para encontrar productos más rápido.</p>
                 </div>
-                <div class="filter-group" id="category-filters">
-                    <button class="filter-button is-active" type="button" data-filter="all">Todas</button>
-                    <button class="filter-button"
-                            type="button"
-                            th:each="categoria : ${categorias}"
-                            th:data-filter="${categoria.id}"
-                            th:classappend="${selectedCategoryId == categoria.id} ? ' is-active'"
-                            th:text="${categoria.nombre}">
-                        Tecnología
-                    </button>
+                <div class="catalog-controls">
+                    <div class="catalog-field">
+                        <label for="nombre">Nombre del producto</label>
+                        <input id="nombre" name="nombre" type="search" placeholder="Ej. mouse, taza, camiseta" th:value="${searchTerm}">
+                    </div>
+                    <div class="catalog-field">
+                        <label for="categoria">Categoría</label>
+                        <select id="categoria" name="categoria">
+                            <option value="">Todas las categorías</option>
+                            <option th:each="categoria : ${categorias}"
+                                    th:value="${categoria.id}"
+                                    th:selected="${selectedCategoryId == categoria.id}"
+                                    th:text="${categoria.nombre}">
+                                Tecnología
+                            </option>
+                        </select>
+                    </div>
+                    <div class="catalog-actions">
+                        <button class="button button-primary" type="submit">Buscar</button>
+                        <a class="button button-secondary" th:href="@{/catalogo}">Limpiar filtros</a>
+                    </div>
                 </div>
-            </div>
+            </form>
 
             <div class="empty-state" th:if="${#lists.isEmpty(productos)}">
-                <strong>No hay productos disponibles.</strong>
-                <p>Verifica que la base de datos tenga semillas cargadas para el catálogo.</p>
+                <strong>No se encontraron productos.</strong>
+                <p>Prueba con otro nombre o limpia los filtros para ver todo el catálogo.</p>
             </div>
 
             <div class="product-grid catalog-grid" th:unless="${#lists.isEmpty(productos)}">
                 <article class="product-card catalog-card"
-                         th:each="producto : ${productos}"
-                         th:attr="data-categoria-id=${producto.categoria.id}">
+                         th:each="producto : ${productos}">
                     <img th:src="@{'/images/productos/' + ${producto.imagen}}" th:alt="${producto.nombre}">
                     <div class="product-body">
                         <div class="product-topline">

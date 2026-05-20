@@ -25,11 +25,22 @@ public class ProductoService {
         return productoRepository.findTop4ByOrderByIdAsc();
     }
 
-    public List<Producto> getCatalogo(Long categoriaId) {
-        if (categoriaId == null) {
+    public List<Producto> getCatalogo(String nombre, Long categoriaId) {
+        String normalizedNombre = nombre == null ? "" : nombre.trim();
+
+        if (normalizedNombre.isEmpty() && categoriaId == null) {
             return productoRepository.findAllByOrderByIdAsc();
         }
-        return productoRepository.findAllByCategoriaIdOrderByIdAsc(categoriaId);
+
+        if (normalizedNombre.isEmpty()) {
+            return productoRepository.findAllByCategoriaIdOrderByIdAsc(categoriaId);
+        }
+
+        if (categoriaId == null) {
+            return productoRepository.findByNombreContainingIgnoreCaseOrderByIdAsc(normalizedNombre);
+        }
+
+        return productoRepository.findByCategoriaIdAndNombreContainingIgnoreCaseOrderByIdAsc(categoriaId, normalizedNombre);
     }
 
     public Producto getProducto(Long id) {

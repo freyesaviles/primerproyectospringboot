@@ -21,6 +21,12 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     List<Producto> findAllByCategoriaIdOrderByIdAsc(Long categoriaId);
 
     @EntityGraph(attributePaths = "categoria")
+    List<Producto> findByNombreContainingIgnoreCaseOrderByIdAsc(String nombre);
+
+    @EntityGraph(attributePaths = "categoria")
+    List<Producto> findByCategoriaIdAndNombreContainingIgnoreCaseOrderByIdAsc(Long categoriaId, String nombre);
+
+    @EntityGraph(attributePaths = "categoria")
     List<Producto> findTop4ByOrderByIdAsc();
 
     @EntityGraph(attributePaths = "categoria")

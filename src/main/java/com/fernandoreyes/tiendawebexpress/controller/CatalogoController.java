@@ -18,11 +18,15 @@ public class CatalogoController {
     }
 
     @GetMapping("/catalogo")
-    public String catalogo(@RequestParam(required = false) Long categoria, Model model) {
+    public String catalogo(@RequestParam(required = false) String nombre,
+                           @RequestParam(required = false) Long categoria,
+                           Model model) {
+        String normalizedNombre = nombre == null ? "" : nombre.trim();
         model.addAttribute("currentPage", "catalogo");
         model.addAttribute("categorias", productoService.getCategorias());
-        model.addAttribute("productos", productoService.getCatalogo(categoria));
-        model.addAttribute("selectedCategoryId", categoria);
+        model.addAttribute("productos", productoService.getCatalogo(normalizedNombre, categoria));
+        model.asMap().put("selectedCategoryId", categoria);
+        model.addAttribute("searchTerm", normalizedNombre);
         return "catalogo";
     }
 
