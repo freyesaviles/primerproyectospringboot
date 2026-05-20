@@ -11,7 +11,7 @@ Aplicación web académica de comercio electrónico construida con `Spring Boot`
 
 La aplicación asume que la base y las tablas ya existen. El script de referencia está en:
 
-- [database/tienda_web_express.sql](/Users/freyes/WebDesignClass/StaticPageFernandoReyes/database/tienda_web_express.sql)
+- [database/tienda_web_express.sql](database/tienda_web_express.sql)
 
 Por defecto la app usa:
 
@@ -34,11 +34,3 @@ Por defecto la app usa:
 - Formulario de pedido con validación en cliente y servidor
 - Persistencia real en `pedido` y `detalle_pedido`
 - Descuento de stock al confirmar el pedido
-
-## Pruebas
-
-```bash
-./mvnw test
-```
-
-Las pruebas usan `H2` en memoria para no depender de una instancia local de PostgreSQL.
