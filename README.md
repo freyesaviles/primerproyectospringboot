@@ -84,16 +84,3 @@ Por defecto la app usa:
 5. En `/carrito/checkout` completa sus datos y confirma.
 6. El sistema crea un solo pedido con múltiples detalles, descuenta stock y limpia el carrito.
 
-## Pruebas
-
-Ejecutar la suite completa:
-
-```bash
-./mvnw test
-```
-
-La cobertura actual incluye:
-
-- pruebas unitarias de `PedidoService`
-- pruebas unitarias de `CarritoService`
-- pruebas de integración con `MockMvc` para catálogo, pedido y carrito
