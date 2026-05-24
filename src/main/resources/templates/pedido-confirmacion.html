@@ -7,6 +7,10 @@
 <main class="page-shell">
     <section class="section-shell">
         <div class="container confirmation-card">
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert" th:if="${successMessage}">
+                <span th:text="${successMessage}">Pedido confirmado correctamente.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
             <p class="eyebrow">Pedido registrado</p>
             <h1>Tu solicitud fue guardada correctamente</h1>
             <p class="hero-text">

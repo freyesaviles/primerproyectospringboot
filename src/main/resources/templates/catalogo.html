@@ -15,6 +15,14 @@
 
     <section class="section-shell">
         <div class="container">
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert" th:if="${successMessage}">
+                <span th:text="${successMessage}">Producto agregado al carrito.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert" th:if="${errorMessage}">
+                <span th:text="${errorMessage}">Error</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
             <form class="catalog-toolbar catalog-form" th:action="@{/catalogo}" method="get">
                 <div class="catalog-toolbar-copy">
                     <strong>Busca y filtra el catálogo</strong>
@@ -80,7 +88,12 @@
 
                         <div class="card-actions">
                             <a class="button button-secondary" th:href="@{'/productos/' + ${producto.id}}">Ver detalle</a>
-                            <a class="button button-ghost" th:href="@{'/pedido?productoId=' + ${producto.id}}">Solicitar</a>
+                            <form th:action="@{'/carrito/agregar/' + ${producto.id}}" method="post">
+                                <input type="hidden" name="redirect" th:value="@{/catalogo(nombre=${searchTerm}, categoria=${selectedCategoryId})}">
+                                <button class="button button-ghost" type="submit" th:disabled="${!producto.disponible}">
+                                    Agregar al carrito
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </article>

@@ -19,18 +19,14 @@
             <a th:href="@{/}" th:classappend="${currentPage == 'inicio'} ? ' is-active'">Inicio</a>
             <a th:href="@{/catalogo}" th:classappend="${currentPage == 'catalogo'} ? ' is-active'">Catálogo</a>
             <a th:href="@{/pedido}" th:classappend="${currentPage == 'pedido'} ? ' is-active'">Pedido</a>
+            <a th:href="@{/carrito}" th:classappend="${currentPage == 'carrito'} ? ' is-active'">Carrito</a>
         </nav>
 
         <div class="cart-shell">
-            <button class="cart-badge" id="cart-toggle" type="button" aria-expanded="false" aria-controls="cart-preview" aria-label="Ver carrito">
-                Ver carrito
-                <span id="selected-count">0</span>
-            </button>
-            <div class="cart-preview" id="cart-preview" hidden>
-                <strong>Productos en carrito</strong>
-                <ul id="cart-items"></ul>
-                <p class="cart-empty" id="cart-empty">Aún no has agregado productos.</p>
-            </div>
+            <a class="cart-badge" th:href="@{/carrito}" aria-label="Ver carrito">
+                Carrito
+                <span th:text="${cartItemCount}">0</span>
+            </a>
         </div>
     </div>
 </header>

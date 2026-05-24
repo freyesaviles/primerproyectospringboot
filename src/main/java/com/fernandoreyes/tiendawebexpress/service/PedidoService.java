@@ -2,10 +2,13 @@ package com.fernandoreyes.tiendawebexpress.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fernandoreyes.tiendawebexpress.dto.CarritoItem;
+import com.fernandoreyes.tiendawebexpress.dto.CheckoutForm;
 import com.fernandoreyes.tiendawebexpress.dto.PedidoForm;
 import com.fernandoreyes.tiendawebexpress.entity.DetallePedido;
 import com.fernandoreyes.tiendawebexpress.entity.Pedido;
@@ -56,6 +59,47 @@ public class PedidoService {
 
         producto.setStock(stockDisponible - pedidoForm.getCantidad());
 
+        return pedidoRepository.save(pedido);
+    }
+
+    @Transactional
+    public Pedido crearPedidoDesdeCarrito(CheckoutForm checkoutForm, List<CarritoItem> items) {
+        if (items == null || items.isEmpty()) {
+            throw new IllegalArgumentException("El carrito está vacío.");
+        }
+
+        Pedido pedido = new Pedido();
+        pedido.setNombreCliente(checkoutForm.getNombreCliente().trim());
+        pedido.setCorreo(checkoutForm.getCorreo().trim());
+        pedido.setComentario(normalizeComentario(checkoutForm.getComentario()));
+        pedido.setFechaPedido(LocalDateTime.now());
+
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (CarritoItem item : items) {
+            Producto producto = productoRepository.findById(item.getProductoId())
+                .orElseThrow(() -> new ProductNotFoundException(item.getProductoId()));
+
+            int stockDisponible = producto.getStock();
+            if (stockDisponible < item.getCantidad()) {
+                throw new InsufficientStockException(producto.getNombre(), stockDisponible);
+            }
+
+            BigDecimal precioUnitario = producto.getPrecio();
+            BigDecimal subtotal = precioUnitario.multiply(BigDecimal.valueOf(item.getCantidad()));
+
+            DetallePedido detallePedido = new DetallePedido();
+            detallePedido.setProducto(producto);
+            detallePedido.setCantidad(item.getCantidad());
+            detallePedido.setPrecioUnitario(precioUnitario);
+            detallePedido.setSubtotal(subtotal);
+            pedido.addDetalle(detallePedido);
+
+            producto.setStock(stockDisponible - item.getCantidad());
+            total = total.add(subtotal);
+        }
+
+        pedido.setTotal(total);
         return pedidoRepository.save(pedido);
     }
 

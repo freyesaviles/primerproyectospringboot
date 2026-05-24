@@ -7,6 +7,14 @@
 <main class="page-shell">
     <section class="section-shell detail-shell">
         <div class="container detail-grid">
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert" th:if="${successMessage}">
+                <span th:text="${successMessage}">Producto agregado al carrito.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert" th:if="${errorMessage}">
+                <span th:text="${errorMessage}">Error</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
             <div class="detail-image-panel">
                 <img th:src="@{'/images/productos/' + ${producto.imagen}}" th:alt="${producto.nombre}">
             </div>
@@ -26,12 +34,14 @@
                 </div>
 
                 <div class="detail-actions">
-                    <button class="button button-primary add-to-cart"
-                            type="button"
-                            th:disabled="${!producto.disponible}"
-                            th:data-product-name="${producto.nombre}">
-                        Agregar al carrito
-                    </button>
+                    <form th:action="@{'/carrito/agregar/' + ${producto.id}}" method="post">
+                        <input type="hidden" name="redirect" th:value="@{'/productos/' + ${producto.id}}">
+                        <button class="button button-primary"
+                                type="submit"
+                                th:disabled="${!producto.disponible}">
+                            Agregar al carrito
+                        </button>
+                    </form>
                     <a class="button button-secondary"
                        th:if="${producto.disponible}"
                        th:href="@{'/pedido?productoId=' + ${producto.id}}">
